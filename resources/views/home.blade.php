@@ -1,51 +1,56 @@
 @extends ('layout')
 @section('content')
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 userlist-card">
-            <h2>User List</h2>
-            <ul>
+<div class="app-container">
+        <div class="userlist-card">
                 @foreach($users as $user)
-                    <li>{{ $user->firstname }}</li>
+                    <div class="user-item">
+                            <div class="avatar"></div>
+                            <div class="username">{{ $user->firstname }}</div>
+                    </div>
                 @endforeach
-            </ul>
         </div>
-        <div class="col-md-8">
-            <h2>Chat</h2>
-            <div id="chat-messages">
-                
+        <div class="main-container">
+             <div class="chat-handler">   
                 @foreach($messages as $message)
-
+                <div class="message-container">
                 @if ($message->user_id === $userId)
-                <div style="background-color: green"><p>{{ $message->message_details }}</p></div>
-                @if ($message->file)
-                  <a href="{{ asset(Storage::url($message->file->file_url)) }}">Download File</a>
-               @endif
-                @else
-                <div style="background-color: red"><p>{{ $message->message_details }}</p></div> 
-                @if ($message->file)
-                 <a href="{{ asset(Storage::url($message->file->file_url)) }}">Download File</a>
-               @endif   
-                @endif
+                <div class="chat-message-outgoing">
+                    <div class="outgoing-message">{{ $message->message_details }}</div>
+                    @if ($message->file)
+                        <a href="{{ asset(Storage::url($message->file->file_url)) }}">Download File</a>
+                     @endif
+                </div>
 
+          
+                @else
+                <div class="chat-message-incoming">
+                    <div class="incoming-message">{{ $message->message_details }}</div> 
+                    @if ($message->file)
+                        <a href="{{ asset(Storage::url($message->file->file_url)) }}">Download File</a>
+                    @endif 
+                </div>
+  
+                @endif
+                </div>
                 @endforeach
-                    
-                
             </div>
-            <form action="{{route('createMessage')}}" method="POST" enctype="multipart/form-data">
+            <div class="send-panel">
+            <form class="form" action="{{route('createMessage')}}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Type your message" name="message_details">
+                <div class="message-input">
+                    <input type="text" class="form-control message" placeholder="Type your message" name="message_details">
                 </div>
-                <div class="form-group">
+                <div class="actions">
                     <input type="file" name="file">
+                    <button type="submit" class="btn btn-primary">Send</button>
                 </div>
-                <button type="submit" class="btn btn-primary">Send</button>
             </form>
-        </div>
-    </div>
 </div>
+        </div>
+
+</div>
+
 @endsection
 
 @section('scripts')
