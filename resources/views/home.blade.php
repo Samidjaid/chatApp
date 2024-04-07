@@ -27,7 +27,9 @@
                 <div class="chat-message-incoming">
                     <div class="incoming-message">{{ $message->message_details }}</div> 
                     @if ($message->file)
-                        <a href="{{ asset(Storage::url($message->file->file_url)) }}">Download File</a>
+                    <div class="file">
+                        <a href="{{ asset('uploads/' . $message->file->fileName) }}" target="_blank">{{ $message->file->fileName }}</a>
+                    </div>
                     @endif 
                 </div>
   

@@ -20,8 +20,8 @@ class ChatRoomController extends Controller
  public function chatRoom(){
     if(Auth::check()){
         $userId = Auth::id();
-        $messages = ChatGroups::orderBy('created_at', 'desc')->get();
-       //$messages = ChatGroups::with('file')->orderBy('created_at', 'desc')->get();
+       // $messages = ChatGroups::orderBy('created_at', 'desc')->get();
+        $messages = ChatGroups::with('file')->orderBy('created_at', 'desc')->get();
         $users = User::all();
         return view('home', compact('userId', 'messages', 'users'));
         
@@ -34,8 +34,8 @@ class ChatRoomController extends Controller
             $userId = Auth::id();
 
             $request -> validate([
-                'message_details' => 'required',
-
+                'message_details' => 'required_without:file',
+                'file' => 'required_without:message_details|file|max:10240',
             ]);
 
             $fileUrl = null;

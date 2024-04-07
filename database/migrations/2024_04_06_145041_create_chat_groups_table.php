@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->text('message_details')->nullable();
-            $table->unsignedBigInteger('file_id');
+            $table->unsignedBigInteger('file_id')->nullable();
             $table->timestamps();
             
             $table->foreign('file_id')->references('id')->on('_chat_file')->onDelete('cascade');
