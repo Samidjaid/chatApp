@@ -3,7 +3,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 userlist-card">
             <h2>User List</h2>
             <ul>
                 @foreach($users as $user)
@@ -14,11 +14,32 @@
         <div class="col-md-8">
             <h2>Chat</h2>
             <div id="chat-messages">
-                <!-- Chat messages will be displayed here -->
+                
+                @foreach($messages as $message)
+
+                @if ($message->user_id === $userId)
+                <div style="background-color: green"><p>{{ $message->message_details }}</p></div>
+                @if ($message->file)
+                  <a href="{{ asset(Storage::url($message->file->file_url)) }}">Download File</a>
+               @endif
+                @else
+                <div style="background-color: red"><p>{{ $message->message_details }}</p></div> 
+                @if ($message->file)
+                 <a href="{{ asset(Storage::url($message->file->file_url)) }}">Download File</a>
+               @endif   
+                @endif
+
+                @endforeach
+                    
+                
             </div>
-            <form id="chat-form">
+            <form action="{{route('createMessage')}}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="form-group">
-                    <input type="text" class="form-control" id="message" placeholder="Type your message">
+                    <input type="text" class="form-control" placeholder="Type your message" name="message_details">
+                </div>
+                <div class="form-group">
+                    <input type="file" name="file">
                 </div>
                 <button type="submit" class="btn btn-primary">Send</button>
             </form>

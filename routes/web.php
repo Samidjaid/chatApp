@@ -17,6 +17,8 @@ use App\Http\Controllers\ChatRoomController;
 */
 
 Route::get('/chatroom', [ChatRoomController::class, 'chatRoom'])->name('home');
+Route::post('/chatroom', [ChatRoomController::class, 'createMessage'])->name('createMessage');
+
 
 
 Route::get('/', [Auth::class, 'login'])->name('login');
@@ -25,5 +27,7 @@ Route::post('/', [Auth::class, 'loginPost'])->name('loginPost');
 Route::get('/register', [Auth::class, 'register'])->name('register');
 Route::post('/register', [Auth::class, 'registerPost'])->name('registerPost');
 Route::get('/logout', [Auth::class, 'logout'])->name('logout');
+
+
 
 

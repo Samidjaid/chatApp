@@ -5,17 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ChatRoom extends Model
+class ChatFiles extends Model
 {
     use HasFactory;
 
+    use HasFactory;
+    protected $table = '_chat_file';
+
     protected $fillable = [
-        'user_id', 'message_details'
+        'fileName', 'fileSize','extention'
     ];
 
-    public function user_id()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
 }
+
+
+

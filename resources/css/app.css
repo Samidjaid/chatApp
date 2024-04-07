@@ -173,3 +173,12 @@ body {
     bottom: 0;
     width: 100%;
 }
+
+
+/* user interface css */ 
+
+.userlist-card {
+  display:flex;
+  flex-direction: column;
+  border:1px solid red;
+}
