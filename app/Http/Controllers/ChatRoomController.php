@@ -20,10 +20,10 @@ class ChatRoomController extends Controller
  public function chatRoom(){
     if(Auth::check()){
         $userId = Auth::id();
-       // $messages = ChatGroups::orderBy('created_at', 'desc')->get();
-        $messages = ChatGroups::with('file')->orderBy('created_at', 'desc')->get();
+        $messages = ChatGroups::orderBy('created_at', 'desc')->get();
+       // $messages = ChatGroups::with('file')->orderBy('created_at', 'desc')->get();
         $users = User::all();
-        return view('home', compact('userId', 'messages', 'users'));
+        return view('index', compact('userId', 'messages', 'users'));
         
     }
 }

@@ -1,4 +1,4 @@
-@extends ('layout')
+@extends ('layouts')
 @section('content')
 
 <div class="container" style="width: 50%;">
