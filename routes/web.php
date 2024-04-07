@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatRoomController;
+use App\Http\Controllers\ImageController;
 
 
 /*
@@ -18,8 +19,6 @@ use App\Http\Controllers\ChatRoomController;
 
 Route::get('/chatroom', [ChatRoomController::class, 'chatRoom'])->name('home');
 Route::post('/chatroom', [ChatRoomController::class, 'createMessage'])->name('createMessage');
-
-
 
 Route::get('/', [Auth::class, 'login'])->name('login');
 Route::post('/', [Auth::class, 'loginPost'])->name('loginPost');

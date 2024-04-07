@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChatGroups;
-use App\Models\ChatFile;
 use App\Models\ChatFiles;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -13,16 +12,11 @@ use Illuminate\Support\Str;
 class ChatRoomController extends Controller
 {
 
-    public function file(){
-        return $this->belongsTo(ChatFiles::class, 'file_id');
-    }
-
  public function chatRoom(){
     if(Auth::check()){
         $userId = Auth::id();
-        $messages = ChatGroups::orderBy('created_at', 'desc')->get();
-       // $messages = ChatGroups::with('file')->orderBy('created_at', 'desc')->get();
-        $users = User::all();
+       $messages = ChatGroups::with('file_id')->orderBy('created_at', 'desc')->get();
+       $users = User::all();
         return view('index', compact('userId', 'messages', 'users'));
         
     }
@@ -42,10 +36,10 @@ class ChatRoomController extends Controller
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $fileName = Str::random(20) . '.' . $file->getClientOriginalExtension();
-               $fileUrl = $file->storeAs('uploads', $fileName); // Store the file in the 'uploads' directory
+               $fileUrl = $file->storeAs('uploads', $fileName); 
                 $extension = $file->getClientOriginalExtension() ?? '';
                 
-                // Create record in the chat_file table
+                
                 $chatFile = ChatFiles::create([
                     'fileName' => $fileName,
                     'fileSize' => $file->getSize(),
@@ -57,11 +51,10 @@ class ChatRoomController extends Controller
                 }
             }
 
-            // Create message data
             $data = [
                 'user_id' => $userId,
                 'message_details' => $request->message_details,
-                'file_id' => $fileUrl ? $chatFile->id : null, // Save file ID if a file is uploaded
+                'file_id' => $fileUrl ? $chatFile->id : null, 
             ];
     
             $chat = ChatGroups::create($data);

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Symfony\Component\Translation\Catalogue\TargetOperation;
 
 class Auth extends Controller
@@ -40,13 +41,22 @@ class Auth extends Controller
             'firstname' => 'required',
             'lastname' => 'required',
             'email' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif',
         ]);
 
         $data['firstname'] = $request->firstname;
         $data['lastname'] = $request->lastname;
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
+
+
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $avatarName = Str::random(20) . '.' . $avatar->getClientOriginalExtension();
+            $avatar->storeAs('public/avatars', $avatarName); 
+            $data['avatar'] = $avatarName;
+        }
 
         $user = User::create($data);
         if(!$user){
